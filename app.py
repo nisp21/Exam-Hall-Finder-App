@@ -19,7 +19,6 @@ def find_third_occurrence(lst, element):
                 return index
     
     return -1
-#
 
 def find_last_occurrence(s, substring):
     last_index = -1
