@@ -9,7 +9,7 @@ uploaded_files = st.file_uploader("Choose one or more PDF files", accept_multipl
 roll_no = st.text_input('Enter your Roll_No:')
 roll_no=roll_no.upper()
 
-classes=['p-','P-','A-','B-','C-','D-','E-','N-']
+# classes=['p-','P-','A-','B-','C-','D-','E-','N-']
 output=[]
 
 def find_third_occurrence(lst, element):
@@ -22,7 +22,7 @@ def find_third_occurrence(lst, element):
                 return index
     
     return -1
-
+ 
 def find_last_occurrence(s, substring):
     last_index = -1
     index = 0
@@ -64,23 +64,24 @@ if st.button("Get Info"):
                 for i in range(text.find("Date"),text.find("T",text.find("Date"))):
                     Date= Date+text[i] 
 
-                index_of_class=-1
-                x=0
-                while(1):
-                    t=x
-                    for i in range(len(classes)):
-                        if text.find(classes[i],x)!=-1:
-                            temp=text.find(classes[i],x)
-                            if temp<text.find(roll_no):
-                                index_of_class=max(index_of_class,temp)
-                            elif temp>text.find(roll_no):
-                                continue
-                            x=text.find(classes[i],x)
-                            x=x+1
-                    if t==x:
-                        break
+                index_of_class=text[0:text.find(roll_no)].rfind('-')
+                index_of_class=index_of_class-1
+                # x=0
+                # while(1):
+                #     t=x
+                #     for i in range(len(classes)):
+                #         if text.find(classes[i],x)!=-1:
+                #             temp=text.find(classes[i],x)
+                #             if temp<text.find(roll_no):
+                #                 index_of_class=max(index_of_class,temp)
+                #             elif temp>text.find(roll_no):
+                #                 continue
+                #             x=text.find(classes[i],x)
+                #             x=x+1
+                #     if t==x:
+                #         break
                 
-                if(index_of_class!=-1):
+                if(index_of_class!=-2):
                     class_name=text[index_of_class:text.find(" ",index_of_class)]
                     if len(class_name)>5 and class_name[5] not in ['A','B','C','D']:
                         class_name=class_name[0:5]
@@ -122,22 +123,24 @@ if st.button("Get Info"):
                     Date= Date+text[i] 
 
                 index_of_class=-1
-                x=0
-                while(1):
-                    t=x
-                    for i in range(len(classes)):
-                        if text.find(classes[i],x)!=-1:
-                            temp=text.find(classes[i],x)
-                            if temp<text.find(roll_no):
-                                index_of_class=max(index_of_class,temp)
-                            elif temp>text.find(roll_no):
-                                continue
-                            x=text.find(classes[i],x)
-                            x=x+1
-                    if t==x:
-                        break
+                index_of_class=text[0:text.find(roll_no)].rfind('-')
+                index_of_class=index_of_class-1
+                # x=0
+                # while(1):
+                #     t=x
+                #     for i in range(len(classes)):
+                #         if text.find(classes[i],x)!=-1:
+                #             temp=text.find(classes[i],x)
+                #             if temp<text.find(roll_no):
+                #                 index_of_class=max(index_of_class,temp)
+                #             elif temp>text.find(roll_no):
+                #                 continue
+                #             x=text.find(classes[i],x)
+                #             x=x+1
+                #     if t==x:
+                #         break
                 
-                if(index_of_class!=-1):
+                if(index_of_class!=-2):
                     class_name=text[index_of_class:text.find(" ",index_of_class)]
                     if len(class_name)>5 and class_name[5] not in ['A','B','C','D']:
                         class_name=class_name[0:5]
