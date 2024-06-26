@@ -3,8 +3,6 @@ from PyPDF2 import PdfReader
 import os
 import glob
 import pandas as pd
-import imgkit
-from PIL import Image
 
 st.title("Seating Arrangement NIRMA UNIVERSITY")
 uploaded_files = st.file_uploader("Choose one or more PDF files", accept_multiple_files=True)
