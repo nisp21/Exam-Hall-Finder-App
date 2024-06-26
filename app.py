@@ -2,13 +2,16 @@ import streamlit as st
 from PyPDF2 import PdfReader
 import os
 import glob
+import pandas as pd
+import imgkit
+from PIL import Image
 
 st.title("Seating Arrangement NIRMA UNIVERSITY")
 uploaded_files = st.file_uploader("Choose one or more PDF files", accept_multiple_files=True)
 roll_no = st.text_input('Enter your Roll_No:')
 roll_no=roll_no.upper()
 
-classes=['A-','B-','C-','D-','E-','N-']
+classes=['p-','P-','A-','B-','C-','D-','E-','N-']
 output=[]
 
 def find_third_occurrence(lst, element):
@@ -70,12 +73,12 @@ if st.button("Get Info"):
                     for i in range(len(classes)):
                         if text.find(classes[i],x)!=-1:
                             temp=text.find(classes[i],x)
-                            if temp>text.find(roll_no):
-                                break
-                            index_of_class=temp
+                            if temp<text.find(roll_no):
+                                index_of_class=max(index_of_class,temp)
+                            elif temp>text.find(roll_no):
+                                continue
                             x=text.find(classes[i],x)
                             x=x+1
-                            break
                     if t==x:
                         break
                 
@@ -85,14 +88,21 @@ if st.button("Get Info"):
                         class_name=class_name[0:5]
                     else:
                         class_name=class_name[0:6]
-
-                    output.append([roll_no,Date[0:find_last_occurrence(Date,'202')+4],class_name,Time[0:(find_third_occurrence(Time,"m")+1)]])
                     
-        output.sort()
-        (output)
+                    if class_name[0]=='p' or class_name[0]=='P':
+                        class_name="D"+class_name[1:]
+                    output.append([Date[0:find_last_occurrence(Date,'202')+4],class_name,Time[0:(find_third_occurrence(Time,"m")+1)]])
+                    
+        output[1:len(output)] = sorted(output[1:len(output)])
+        df=pd.DataFrame(output)
+        st.markdown(f"### {roll_no}'s Seating Arrangement")
+        styled_df = df.style.map(lambda x: 'font-weight: bold;', subset=pd.IndexSlice[0, :])       
+        html = styled_df.hide(axis="index").hide(axis="columns").to_html()
+        st.write(html, unsafe_allow_html=True)
 
     else:
         output.clear()
+        output.append(["Date","Room","Time"])
         for hehe in pdf_files:
             reader = PdfReader(hehe)
             number_of_pages = len(reader.pages)
@@ -120,12 +130,12 @@ if st.button("Get Info"):
                     for i in range(len(classes)):
                         if text.find(classes[i],x)!=-1:
                             temp=text.find(classes[i],x)
-                            if temp>text.find(roll_no):
-                                break
-                            index_of_class=temp
+                            if temp<text.find(roll_no):
+                                index_of_class=max(index_of_class,temp)
+                            elif temp>text.find(roll_no):
+                                continue
                             x=text.find(classes[i],x)
                             x=x+1
-                            break
                     if t==x:
                         break
                 
@@ -136,9 +146,19 @@ if st.button("Get Info"):
                     else:
                         class_name=class_name[0:6]
 
-                    output.append([roll_no,Date[0:find_last_occurrence(Date,'202')+4],class_name,Time[0:(find_third_occurrence(Time,"m")+1)]])
-        output.sort()
-        output
+                    if class_name[0]=='p' or class_name[0]=='P':
+                        class_name="D"+class_name[1:]
+
+                    output.append([Date[7:find_last_occurrence(Date,'202')+4],class_name,Time[7:(find_third_occurrence(Time,"m")+1)]])
+
+        output[1:len(output)] = sorted(output[1:len(output)])
+        df=pd.DataFrame(output)
+        st.markdown(f"### {roll_no}'s Seating Arrangement")
+        styled_df = df.style.map(lambda x: 'font-weight: bold;', subset=pd.IndexSlice[0, :])       
+        html = styled_df.hide(axis="index").hide(axis="columns").to_html()
+        st.write(html, unsafe_allow_html=True)
 
 st.text("NOTE : This might contains some mistake do check if output\nis less than the no_of_papers you are appearing")
 st.text("Made by Nisarg Patel (21BCE211)")
+
+
