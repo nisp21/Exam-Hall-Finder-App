@@ -72,32 +72,33 @@ if st.button("Get Info"):
                     if t==x:
                         break
                 
-                initial=0
-                while(1):
+                if(len(id_class)):
+                    initial=0
+                    while(1):
 
-                    id_student=text.find(roll_no,initial)
-                    initial=id_student+1
-                    if id_student!=-1:
+                        id_student=text.find(roll_no,initial)
+                        initial=id_student+1
+                        if id_student!=-1:
 
-                        t=len(id_class)-1
+                            t=len(id_class)-1
 
-                        for i in range(len(id_class)):
-                            if id_class[i]>id_student:
-                                t=i
-                                t=t-1
-                                break
+                            for i in range(len(id_class)):
+                                if id_class[i]>id_student:
+                                    t=i
+                                    t=t-1
+                                    break
 
-                        class_name=text[id_class[t]:text.find(" ",id_class[t])]
-                        if len(class_name)>5 and class_name[5] not in ['A','B','C','D']:
-                            class_name=class_name[0:5]
+                            class_name=text[id_class[t]:text.find(" ",id_class[t])]
+                            if len(class_name)>5 and class_name[5] not in ['A','B','C','D']:
+                                class_name=class_name[0:5]
+                            else:
+                                class_name=class_name[0:6]
+
+                            output.append([roll_no,Date[0:find_last_occurrence(Date,'202')+4],class_name,Time[0:(find_third_occurrence(Time,"m")+1)]])
                         else:
-                            class_name=class_name[0:6]
-
-                        output.append([roll_no,Date[0:find_last_occurrence(Date,'202')+4],class_name,Time[0:(find_third_occurrence(Time,"m")+1)]])
-                    else:
-                        break
+                            break
         output.sort()
-        output
+        (output)
 
     else:
         output.clear()
@@ -129,33 +130,32 @@ if st.button("Get Info"):
                             break
                     if t==x:
                         break
-                
-                initial=0
-                while(1):
+                if(len(id_class)):
+                    initial=0
+                    while(1):
+                        id_student=text.find(roll_no,initial)
+                        initial=id_student+1
+                        if id_student!=-1:
 
-                    id_student=text.find(roll_no,initial)
-                    initial=id_student+1
-                    if id_student!=-1:
+                            t=len(id_class)-1
 
-                        t=len(id_class)-1
+                            for i in range(len(id_class)):
+                                if id_class[i]>id_student:
+                                    t=i
+                                    t=t-1
+                                    break
 
-                        for i in range(len(id_class)):
-                            if id_class[i]>id_student:
-                                t=i
-                                t=t-1
-                                break
+                            class_name=text[id_class[t]:text.find(" ",id_class[t])]
+                            if len(class_name)>5 and class_name[5] not in ['A','B','C','D']:
+                                class_name=class_name[0:5]
+                            else:
+                                class_name=class_name[0:6]
 
-                        class_name=text[id_class[t]:text.find(" ",id_class[t])]
-                        if len(class_name)>5 and class_name[5] not in ['A','B','C','D']:
-                            class_name=class_name[0:5]
+                            output.append([roll_no,Date[0:find_last_occurrence(Date,'202')+4],class_name,Time[0:(find_third_occurrence(Time,"m")+1)]])
                         else:
-                            class_name=class_name[0:6]
-
-                        output.append([roll_no,Date[0:find_last_occurrence(Date,'202')+4],class_name,Time[0:(find_third_occurrence(Time,"m")+1)]])
-                    else:
-                        break
+                            break
         output.sort()
         output
 
-
+st.text("NOTE : This might contains some mistake do check if output is less than the no_of_papers you are appearing")
 st.text("Made by Nisarg Patel (21BCE211)")
