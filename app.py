@@ -50,6 +50,11 @@ if st.button("Get Info"):
             for nisarg in range(number_of_pages):
                 page = reader.pages[nisarg]
                 text = page.extract_text()
+                
+
+                if text.find(roll_no)==-1:
+                        continue
+                
                 Time=""
                 for i in range(text.find("Time"),text.find("\n",text.find("Time"))):
                     Time= Time+text[i] 
@@ -57,58 +62,49 @@ if st.button("Get Info"):
                 Date=""
                 for i in range(text.find("Date"),text.find("T",text.find("Date"))):
                     Date= Date+text[i] 
-                
-                id_class=[]
-                id_class.clear()
+
+                index_of_class=-1
                 x=0
                 while(1):
                     t=x
                     for i in range(len(classes)):
                         if text.find(classes[i],x)!=-1:
-                            id_class.append(text.find(classes[i],x))
+                            temp=text.find(classes[i],x)
+                            if temp>text.find(roll_no):
+                                break
+                            index_of_class=temp
                             x=text.find(classes[i],x)
                             x=x+1
                             break
                     if t==x:
                         break
                 
-                if(len(id_class)):
-                    initial=0
-                    while(1):
+                if(index_of_class!=-1):
+                    class_name=text[index_of_class:text.find(" ",index_of_class)]
+                    if len(class_name)>5 and class_name[5] not in ['A','B','C','D']:
+                        class_name=class_name[0:5]
+                    else:
+                        class_name=class_name[0:6]
 
-                        id_student=text.find(roll_no,initial)
-                        initial=id_student+1
-                        if id_student!=-1:
-
-                            t=len(id_class)-1
-
-                            for i in range(len(id_class)):
-                                if id_class[i]>id_student:
-                                    t=i
-                                    t=t-1
-                                    break
-
-                            class_name=text[id_class[t]:text.find(" ",id_class[t])]
-                            if len(class_name)>5 and class_name[5] not in ['A','B','C','D']:
-                                class_name=class_name[0:5]
-                            else:
-                                class_name=class_name[0:6]
-
-                            output.append([roll_no,Date[0:find_last_occurrence(Date,'202')+4],class_name,Time[0:(find_third_occurrence(Time,"m")+1)]])
-                        else:
-                            break
+                    output.append([roll_no,Date[0:find_last_occurrence(Date,'202')+4],class_name,Time[0:(find_third_occurrence(Time,"m")+1)]])
+                    
         output.sort()
         (output)
 
     else:
         output.clear()
         for hehe in pdf_files:
-            reader = PdfReader((hehe))
+            reader = PdfReader(hehe)
             number_of_pages = len(reader.pages)
 
             for nisarg in range(number_of_pages):
                 page = reader.pages[nisarg]
                 text = page.extract_text()
+                
+
+                if text.find(roll_no)==-1:
+                        continue
+                
                 Time=""
                 for i in range(text.find("Time"),text.find("\n",text.find("Time"))):
                     Time= Time+text[i] 
@@ -116,44 +112,31 @@ if st.button("Get Info"):
                 Date=""
                 for i in range(text.find("Date"),text.find("T",text.find("Date"))):
                     Date= Date+text[i] 
-                
-                id_class=[]
-                id_class.clear()
+
+                index_of_class=-1
                 x=0
                 while(1):
                     t=x
                     for i in range(len(classes)):
                         if text.find(classes[i],x)!=-1:
-                            id_class.append(text.find(classes[i],x))
+                            temp=text.find(classes[i],x)
+                            if temp>text.find(roll_no):
+                                break
+                            index_of_class=temp
                             x=text.find(classes[i],x)
                             x=x+1
                             break
                     if t==x:
                         break
-                if(len(id_class)):
-                    initial=0
-                    while(1):
-                        id_student=text.find(roll_no,initial)
-                        initial=id_student+1
-                        if id_student!=-1:
+                
+                if(index_of_class!=-1):
+                    class_name=text[index_of_class:text.find(" ",index_of_class)]
+                    if len(class_name)>5 and class_name[5] not in ['A','B','C','D']:
+                        class_name=class_name[0:5]
+                    else:
+                        class_name=class_name[0:6]
 
-                            t=len(id_class)-1
-
-                            for i in range(len(id_class)):
-                                if id_class[i]>id_student:
-                                    t=i
-                                    t=t-1
-                                    break
-
-                            class_name=text[id_class[t]:text.find(" ",id_class[t])]
-                            if len(class_name)>5 and class_name[5] not in ['A','B','C','D']:
-                                class_name=class_name[0:5]
-                            else:
-                                class_name=class_name[0:6]
-
-                            output.append([roll_no,Date[0:find_last_occurrence(Date,'202')+4],class_name,Time[0:(find_third_occurrence(Time,"m")+1)]])
-                        else:
-                            break
+                    output.append([roll_no,Date[0:find_last_occurrence(Date,'202')+4],class_name,Time[0:(find_third_occurrence(Time,"m")+1)]])
         output.sort()
         output
 
