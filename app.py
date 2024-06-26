@@ -157,5 +157,5 @@ if st.button("Get Info"):
         output.sort()
         output
 
-st.text("NOTE : This might contains some mistake do check if output is less than the no_of_papers you are appearing")
+st.text("NOTE : This might contains some mistake do check if output\nis less than the no_of_papers you are appearing")
 st.text("Made by Nisarg Patel (21BCE211)")
