@@ -9,7 +9,7 @@ This Streamlit web application helps students at Nirma University find their exa
 - The application will display your exam hall number with date and time.
 
 ## Deployment
-This application is currently deployed at [examhall4nirmauni.streamlit.app](https://examhall4nirmauni.streamlit.app/).
+This application is currently deployed at ([https://examhall4nirmauni.streamlit.app/](https://exam-hall-nirmauni.streamlit.app/)).
 
 ## Contributing
 Contributions are welcome! If you want to contribute to this project, fork the repository and create a pull request with your changes.
