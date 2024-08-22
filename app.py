@@ -89,7 +89,6 @@ if st.button("Get Info"):
     html = styled_df.hide(axis="index").hide(axis="columns").to_html()
     st.write(html, unsafe_allow_html=True)
 
-st.text("NOTE : This might contains some mistake do check if output\nis less than the no_of_papers you are appearing")
 st.text("Made by Nisarg Patel (21BCE211)")
 
 
