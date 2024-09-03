@@ -42,7 +42,6 @@ cnt=0
 
 
 if st.button("Get Info"):
-
     if len(uploaded_files):
         pdf_files=uploaded_files
     output.clear()
@@ -83,16 +82,12 @@ if st.button("Get Info"):
 
                 output.append([Date[7:find_last_occurrence(Date,'202')+4],class_name,Time[7:(find_third_occurrence(Time,"m")+1)]])
 
-    if len(output) == 1:
-        st.text("Roll Number not Found")
-    else:
-        output[1:len(output)] = sorted(output[1:len(output)])
-        df=pd.DataFrame(output)
-        st.markdown(f"### {roll_no}'s Seating Arrangement")
-        styled_df = df.style.map(lambda x: 'font-weight: bold;', subset=pd.IndexSlice[0, :])       
-        html = styled_df.hide(axis="index").hide(axis="columns").to_html()
-        st.write(html, unsafe_allow_html=True)
+    output[1:len(output)] = sorted(output[1:len(output)])
+    df=pd.DataFrame(output)
+    st.markdown(f"### {roll_no}'s Seating Arrangement")
+    styled_df = df.style.map(lambda x: 'font-weight: bold;', subset=pd.IndexSlice[0, :])       
+    html = styled_df.hide(axis="index").hide(axis="columns").to_html()
+    st.write(html, unsafe_allow_html=True)
 
 st.text("Made by Nisarg Patel (21BCE211)")
-
 
