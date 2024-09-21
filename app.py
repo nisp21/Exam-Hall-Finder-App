@@ -2,6 +2,7 @@ import streamlit as st
 from PyPDF2 import PdfReader
 import os
 import glob
+import re
 import pandas as pd
 
 st.title("Seating Arrangement NIRMA UNIVERSITY")
@@ -65,8 +66,9 @@ if st.button("Get Info"):
                         continue
 
                 Time=""
-                for i in range(text.find("Time"),text.find("\n",text.find("Time"))):
-                    Time= Time+text[i] 
+                regex = r'(\d{1,2}\.\d{2} (?:am|pm) to \d{1,2}\.\d{2} (?:am|pm))'
+                res = re.findall(regex, text)
+                Time = ', '.join(res)
 
                 Date=""
                 for i in range(text.find("Date"),text.find("T",text.find("Date"))):
@@ -83,7 +85,7 @@ if st.button("Get Info"):
                     else:
                         class_name=class_name[0:6]
 
-                    output.append([Date[7:find_last_occurrence(Date,'202')+4],class_name,Time[7:(find_third_occurrence(Time,"m")+1)]])
+                    output.append([Date[7:find_last_occurrence(Date,'202')+4],class_name,Time])
 
         if len(output) == 1:
             st.text("Roll Number not Found")
@@ -91,7 +93,7 @@ if st.button("Get Info"):
             output[1:len(output)] = sorted(output[1:len(output)])
             df=pd.DataFrame(output)
             st.markdown(f"### {roll_no}'s Seating Arrangement")
-            styled_df = df.style.map(lambda x: 'font-weight: bold;', subset=pd.IndexSlice[0, :])       
+            styled_df = df.style.apply(lambda x: ['font-weight: bold;' if x.name == 0 else '' for _ in x], axis=1)   
             html = styled_df.hide(axis="index").hide(axis="columns").to_html()
             st.write(html, unsafe_allow_html=True)
 
